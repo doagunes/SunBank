@@ -1,0 +1,93 @@
+<div class="signup-container">
+  <h2>Sign Up</h2>
+
+  <form (ngSubmit)="signup()">
+
+    <label for="firstName">First Name:</label>
+      <input
+        type="text"
+        [(ngModel)]="firstName"
+        name="firstName"
+        required
+        placeholder="e.g. Doğa"
+    />
+
+    <label for="lastName">Last Name:</label>
+      <input
+        type="text"
+        [(ngModel)]="lastName"
+        name="lastName"
+        required
+        placeholder="e.g. Güneş"
+    />
+
+    <label for="tc">TC Identity Number:</label>
+    <input
+      type="text"
+      [(ngModel)]="tc"
+      name="tc"
+      required
+      pattern="[1-9][0-9]{10}"
+    />
+
+    <label for="email">Email:</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          (ngModelChange)="onEmailInput()"
+          name="email"
+          required
+    />
+
+    <label for="phone">Phone Number:</label>
+      <input
+        type="text"
+        [(ngModel)]="phoneNumber"
+        name="phone"
+        required
+        pattern="05[0-9]{9}"
+        placeholder="05XXXXXXXXX"
+    />
+
+
+  <!--<ul class="email-rules">
+    <li [class.valid]="emailRules.notEmpty">
+      Not empty
+    </li>
+    <li [class.valid]="emailRules.hasAtSymbol">
+      Contains &#64;
+    </li>
+    <li [class.valid]="emailRules.hasDotAfterAt">
+      Dot (.) after &#64;
+    </li>
+  </ul> -->
+  
+  <label for="password">Password:</label>
+  <input
+    type="text"
+    [(ngModel)]="password"
+    (ngModelChange)="onPasswordInput()"
+    name="password"
+    required
+  />
+  
+  <ul class="password-rules">
+    <li [class.valid]="passwordRules.length">At least 8 characters</li>
+    <li [class.valid]="passwordRules.uppercase">One uppercase letter</li>
+    <li [class.valid]="passwordRules.lowercase">One lowercase letter</li>
+    <li [class.valid]="passwordRules.number">One number</li>
+  </ul>
+  
+    
+
+  <label for="confirmPassword">Confirm Password:</label>
+  <input
+    type="password"
+    [(ngModel)]="confirmPassword"
+    name="confirmPassword"
+    required
+  />
+  
+    <button type="submit">Sign Up</button>
+  </form>
+</div>

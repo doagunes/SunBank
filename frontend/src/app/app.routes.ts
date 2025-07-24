@@ -1,0 +1,41 @@
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login').then(m => m.LoginComponent),
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./signup/signup').then(m => m.SignupComponent),
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./forgot-password/forgot-password').then(m => m.ForgotPasswordComponent),
+  },
+  
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./reset-password/reset-password').then(m => m.ResetPasswordComponent),
+  },
+
+  {
+    path: 'chat',
+    loadComponent: () => import('./chatbot/chatbot').then(m => m.ChatbotComponent),
+  },
+  
+  {
+    path: 'home',
+    loadComponent: () => import('./home/home').then(m => m.HomeComponent),
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent), 
+  },
+
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+]; 

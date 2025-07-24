@@ -1,0 +1,25 @@
+.user-header {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-header a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .user-header button {
+    margin-left: auto;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
