@@ -28,7 +28,7 @@ export class LoginComponent {
       tc: this.tc,
       password: this.password,
     };
-
+  
     this.authService.login(payload).subscribe({
       next: () => {
         alert('Login successful!');
@@ -40,6 +40,7 @@ export class LoginComponent {
       },
     });
   }
+  
 
   onForgotPassword(event: Event) {
     event.preventDefault();

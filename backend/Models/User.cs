@@ -9,5 +9,8 @@ namespace Backend.Models
         public string FirstName { get; set; } 
         public string LastName { get; set; }   
         public string PhoneNumber { get; set; }
+
+        // Her kullanıcının birden fazla hesabı olabilir
+        public List<Account> Accounts { get; set; } = new();
     }
 }

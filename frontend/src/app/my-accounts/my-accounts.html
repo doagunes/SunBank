@@ -1,0 +1,10 @@
+<h2>Hesap Bilgileriniz</h2>
+
+<div *ngIf="iban">
+  <p><strong>IBAN:</strong> {{ iban }}</p>
+  <p><strong>Bakiye:</strong> {{ balance | currency:'TRY' }}</p>
+</div>
+
+<div *ngIf="!iban">
+  <p>Hesap bilgisi bulunamadı.</p>
+</div>

@@ -34,6 +34,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'my-accounts',
+    loadComponent: () => import('./my-accounts/my-accounts').then(m => m.MyAccountsComponent)
+  },
+  
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

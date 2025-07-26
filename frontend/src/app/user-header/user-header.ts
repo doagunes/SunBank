@@ -16,6 +16,10 @@ export class UserHeaderComponent {
     private router: Router
   ) {}
 
+  goToMyAccounts() {
+    this.router.navigate(['/my-accounts']);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);

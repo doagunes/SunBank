@@ -30,13 +30,20 @@ export class AuthService {
   }
 
   login(data: LoginData): Observable<any> {
-    return this.http.post(this.loginUrl, data, { responseType: 'text' }).pipe(
-      tap(() => {
+    return this.http.post<any>(this.loginUrl, data).pipe(
+      tap((res) => {
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+        }
+        if (res.userId !== undefined && res.userId !== null) {
+          localStorage.setItem('userId', res.userId.toString());
+        }
         localStorage.setItem('isLoggedIn', 'true');
       })
     );
   }
-
+  
+  
   logout() {
     localStorage.removeItem('isLoggedIn');
   }

@@ -98,6 +98,14 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//otomatik iban oluşturuyorum
+string GenerateIban(int userId)
+{
+    return $"TR{DateTime.Now.Ticks % 1_000_000_000_000_000}{userId}"
+        .PadRight(26, '0')
+        .Substring(0, 26);
+}
+
 app.MapPost("/api/login", async ([FromBody] LoginDto loginDto, [FromServices] AppDbContext db, IConfiguration config) =>
 {
     var user = await db.Users.FirstOrDefaultAsync(u => u.Tc == loginDto.Tc);
@@ -130,11 +138,13 @@ app.MapPost("/api/login", async ([FromBody] LoginDto loginDto, [FromServices] Ap
 
     var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-    return Results.Ok(new { token = jwt });
+    return Results.Ok(new { token = jwt,
+    userId = user.Id });
 })
 .WithName("Login")
 .WithTags("Auth");
 
+// hesap oluşturma ekledim
 app.MapPost("/api/signup", async (UserDto userDto, AppDbContext db) =>
 {
     if (string.IsNullOrWhiteSpace(userDto.Tc) || string.IsNullOrWhiteSpace(userDto.Email) || string.IsNullOrWhiteSpace(userDto.Password))
@@ -174,10 +184,29 @@ app.MapPost("/api/signup", async (UserDto userDto, AppDbContext db) =>
     };
 
     db.Users.Add(newUser);
+    await db.SaveChangesAsync(); // newUser.Id oluşur
+
+    // Hesap oluştur
+    var iban = GenerateIban(newUser.Id);
+    var account = new Account
+    {
+        UserId = newUser.Id,
+        Iban = iban,
+        Balance = 1000 // Başlangıç bakiyesi
+    };
+
+    db.Accounts.Add(account);
     await db.SaveChangesAsync();
 
-    return Results.Ok("User registered successfully");
+    return Results.Ok(new
+    {
+        message = "User and account created successfully",
+        userId = newUser.Id,
+        iban = iban,
+        balance = account.Balance
+    });
 });
+
 
 app.MapPost("/api/forgot-password", async (ForgotPasswordDto dto, AppDbContext db, MailService mailService) =>
 {
@@ -240,6 +269,22 @@ app.MapPost("/api/chat", async (GeminiRequest req, GeminiService geminiService) 
 })
 .WithName("Chat")
 .WithTags("AI");
+
+app.MapGet("/api/account/{userId}", async (int userId, AppDbContext db) =>
+{
+    var account = await db.Accounts
+        .FirstOrDefaultAsync(a => a.UserId == userId);
+
+    if (account == null)
+        return Results.NotFound("Account not found for this user.");
+
+    return Results.Ok(new
+    {
+        iban = account.Iban,
+        balance = account.Balance
+    });
+});
+
 
 app.Run();
 
