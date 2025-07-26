@@ -20,6 +20,10 @@ export class UserHeaderComponent {
     this.router.navigate(['/my-accounts']);
   }
 
+  goToTransferMoney() {
+    this.router.navigate(['/transfer-money']);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);

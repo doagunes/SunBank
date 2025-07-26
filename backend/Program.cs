@@ -285,6 +285,55 @@ app.MapGet("/api/account/{userId}", async (int userId, AppDbContext db) =>
     });
 });
 
+app.MapPost("/api/transfer", async (TransferDto transferDto, AppDbContext db,  MailService mailService) =>
+{
+    var senderAccount = await db.Accounts.FirstOrDefaultAsync(a => a.UserId == transferDto.SenderUserId);
+    if (senderAccount == null)
+        return Results.NotFound("Sender account not found.");
+
+    var recipientAccount = await db.Accounts.FirstOrDefaultAsync(a => a.Iban == transferDto.RecipientIban);
+    if (recipientAccount == null)
+        return Results.NotFound("Recipient account not found.");
+
+    var recipientUser = await db.Users.FirstOrDefaultAsync(u => u.Id == recipientAccount.UserId);
+    if (recipientUser == null)
+        return Results.NotFound("Recipient user not found.");
+
+    // İsim soyisim kontrolü
+    if (!string.Equals(recipientUser.FirstName, transferDto.RecipientFirstName, StringComparison.OrdinalIgnoreCase) ||
+        !string.Equals(recipientUser.LastName, transferDto.RecipientLastName, StringComparison.OrdinalIgnoreCase))
+    {
+        return Results.BadRequest("Recipient name and surname do not match.");
+    }
+
+    if (transferDto.Amount <= 0)
+        return Results.BadRequest("Transfer amount must be positive.");
+
+    if (senderAccount.Balance < transferDto.Amount)
+        return Results.BadRequest("Insufficient balance.");
+
+    senderAccount.Balance -= transferDto.Amount;
+    recipientAccount.Balance += transferDto.Amount;
+
+    await db.SaveChangesAsync();
+
+    // Mail gönderimi (recipient)
+    var recipientFullName = $"{recipientUser.FirstName} {recipientUser.LastName}";
+    await mailService.SendTransferNotificationEmailAsync(
+        recipientUser.Email,
+        recipientFullName,
+        transferDto.Amount,
+        transferDto.Note ?? ""
+    );
+
+    return Results.Ok(new
+    {
+        message = "Transfer successful",
+        senderBalance = senderAccount.Balance,
+        recipientBalance = recipientAccount.Balance
+    });
+});
+
 
 app.Run();
 
@@ -335,3 +384,14 @@ public record LoginDto(string Tc, string Password);
 public record ForgotPasswordDto(string Tc, string Email);
 public record ResetPasswordDto(string Tc, string NewPassword);
 public record GeminiRequest(string Prompt);
+public class TransferDto
+{
+    public int SenderUserId { get; set; }
+    public string RecipientIban { get; set; } = null!;
+    public string RecipientFirstName { get; set; } = null!;
+    public string RecipientLastName { get; set; } = null!;
+    public decimal Amount { get; set; }
+    public string? Note { get; set; }
+}
+
+

@@ -37,6 +37,11 @@ export const routes: Routes = [
     path: 'my-accounts',
     loadComponent: () => import('./my-accounts/my-accounts').then(m => m.MyAccountsComponent)
   },
+
+  {
+    path: 'transfer-money',
+    loadComponent: () => import('./transfer-money/transfer-money').then(m => m.TransferMoneyComponent)
+  },
   
   {
     path: '',
