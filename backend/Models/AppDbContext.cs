@@ -7,8 +7,9 @@ namespace Backend.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; } 
+        public DbSet<Bill> Bills { get; set; }
 
-
+    
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

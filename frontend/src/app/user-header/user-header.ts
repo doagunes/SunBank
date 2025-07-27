@@ -24,6 +24,10 @@ export class UserHeaderComponent {
     this.router.navigate(['/transfer-money']);
   }
 
+  goToBillPayments() {
+    this.router.navigate(['/bills']);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);

@@ -1,0 +1,19 @@
+<h2>My Bills</h2>
+<table>
+  <tr>
+    <th>Amount</th>
+    <th>Due Date</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  <tr *ngFor="let bill of bills">
+    <td>{{ bill.amount | currency:'TRY' }}</td>
+    <td>{{ bill.dueDate | date }}</td>
+    <td>{{ bill.isPaid ? 'Paid' : 'Pending' }}</td>
+    <td>
+      <button (click)="payBill(bill.id)" [disabled]="bill.isPaid">
+        Pay
+      </button>
+    </td>
+  </tr>
+</table>

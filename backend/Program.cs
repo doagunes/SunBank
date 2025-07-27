@@ -48,6 +48,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<GeminiService>();
 builder.Services.AddScoped<NewsService>();
 
+
 var config = builder.Configuration;
 
 builder.Services.AddAuthentication(options =>
@@ -79,10 +80,13 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddHostedService<WeeklyBillGenerator>();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=users.db"));
 
 var app = builder.Build();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -334,6 +338,77 @@ app.MapPost("/api/transfer", async (TransferDto transferDto, AppDbContext db,  M
     });
 });
 
+
+// Tüm faturaları listele
+app.MapGet("/api/bills", async (AppDbContext db) =>
+    await db.Bills.Include(b => b.User).ToListAsync());
+
+// Kullanıcıya özel faturaları listele 
+app.MapGet("/api/users/{userId}/bills", async (int userId, AppDbContext db) =>
+{
+    var bills = await db.Bills
+        .Where(b => b.UserId == userId)
+        .Include(b => b.User)
+        .ToListAsync();
+
+    return Results.Ok(bills);
+})
+.WithName("GetUserBills")
+.WithTags("Bills");    
+
+// Id'ye göre tek fatura getir
+app.MapGet("/api/bills/{id}", async (int id, AppDbContext db) =>
+{
+    var bill = await db.Bills.Include(b => b.User).FirstOrDefaultAsync(b => b.Id == id);
+    return bill is not null ? Results.Ok(bill) : Results.NotFound();
+});
+
+// Yeni fatura oluştur
+app.MapPost("/api/bills", async (Bill bill, AppDbContext db) =>
+{
+    db.Bills.Add(bill);
+    await db.SaveChangesAsync();
+    return Results.Created($"/api/bills/{bill.Id}", bill);
+});
+
+// Faturayı ödenmiş olarak güncelle
+app.MapPut("/api/bills/{id}/pay", async (int id, AppDbContext db) =>
+{
+    var bill = await db.Bills.FindAsync(id);
+    if (bill is null) return Results.NotFound("Fatura bulunamadı.");
+
+    if (bill.IsPaid)
+        return Results.BadRequest("Fatura zaten ödenmiş.");
+
+    var account = await db.Accounts.FirstOrDefaultAsync(a => a.UserId == bill.UserId);
+    if (account is null)
+        return Results.NotFound("Kullanıcının hesabı bulunamadı.");
+
+    if (account.Balance < bill.Amount)
+        return Results.BadRequest("Yetersiz bakiye.");
+
+    // 💸 Bakiye düş, fatura öde
+    account.Balance -= bill.Amount;
+    bill.IsPaid = true;
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(new
+    {
+        message = "Fatura ödendi.",
+        remainingBalance = account.Balance
+    });
+});
+
+
+/*
+// Bills tablosunu temizle - GEÇİCİ
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Bills.RemoveRange(db.Bills);
+    db.SaveChanges();
+}*/
 
 app.Run();
 
