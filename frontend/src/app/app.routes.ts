@@ -49,6 +49,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'loan',
+    loadComponent: () => import('./loan/loan').then(m => m.LoanComponent)
+  },
+
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

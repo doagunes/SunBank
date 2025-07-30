@@ -211,7 +211,6 @@ app.MapPost("/api/signup", async (UserDto userDto, AppDbContext db) =>
     });
 });
 
-
 app.MapPost("/api/forgot-password", async (ForgotPasswordDto dto, AppDbContext db, MailService mailService) =>
 {
     var user = await db.Users.FirstOrDefaultAsync(u => u.Tc == dto.Tc && u.Email == dto.Email);
@@ -400,7 +399,6 @@ app.MapPut("/api/bills/{id}/pay", async (int id, AppDbContext db) =>
     });
 });
 
-
 /*
 // Bills tablosunu temizle - GEÇİCİ
 using (var scope = app.Services.CreateScope())
@@ -409,6 +407,115 @@ using (var scope = app.Services.CreateScope())
     db.Bills.RemoveRange(db.Bills);
     db.SaveChanges();
 }*/
+
+
+app.MapPost("/api/loan/apply", async ([FromBody] LoanRequestDto dto, AppDbContext db) =>
+{
+    var user = await db.Users.FindAsync(dto.UserId);
+    if (user is null)
+        return Results.NotFound("Kullanıcı bulunamadı.");
+
+    var hasActiveLoan = await db.Loans.AnyAsync(l => l.UserId == dto.UserId && l.IsActive);
+    if (hasActiveLoan)
+        return Results.BadRequest("Zaten aktif bir krediniz mevcut.");
+
+    var userAccounts = await db.Accounts.Where(a => a.UserId == dto.UserId).ToListAsync();
+    var totalBalance = userAccounts.Sum(a => a.Balance);
+    bool isApproved = dto.Amount <= 10000 || totalBalance >= (dto.Amount * 0.25m);
+
+    var loan = new Loan
+    {
+        UserId = dto.UserId,
+        Amount = dto.Amount,
+        Term = dto.Term, // ➕ eklendi
+        IsApproved = isApproved,
+        IsActive = isApproved,
+        ApplicationDate = DateTime.UtcNow
+    };
+
+    db.Loans.Add(loan);
+if (isApproved)
+{
+    // Kullanıcının ilk hesabına krediyi yatırıyoruz
+    var firstAccount = userAccounts.FirstOrDefault();
+    if (firstAccount is not null)
+    {
+        firstAccount.Balance += dto.Amount;
+    }
+}    await db.SaveChangesAsync();
+
+    var response = new LoanResponseDto(
+        loan.Id,
+        loan.Amount,
+        loan.Term, // ➕ eklendi
+        loan.ApplicationDate,
+        loan.IsApproved,
+        loan.IsActive
+    );
+
+    return Results.Ok(new
+    {
+        Message = isApproved ? "Kredi başvurusu onaylandı." : "Kredi başvurusu reddedildi.",
+        Loan = response
+    });
+});
+
+
+app.MapGet("/api/loan/{userId}", async (int userId, AppDbContext db) =>
+{
+    var loans = await db.Loans
+        .Where(l => l.UserId == userId)
+        .ToListAsync();
+
+    return Results.Ok(loans);
+});
+
+app.MapPut("/api/loan/close/{loanId}", async (int loanId, AppDbContext db) =>
+{
+    var loan = await db.Loans.FindAsync(loanId);
+    if (loan is null)
+        return Results.NotFound("Kredi bulunamadı.");
+
+    if (!loan.IsActive)
+        return Results.BadRequest("Bu kredi zaten kapatılmış.");
+
+    loan.IsActive = false;
+    await db.SaveChangesAsync();
+
+    return Results.Ok("Kredi başarıyla kapatıldı.");
+});
+
+
+app.MapGet("/api/loan/user/{userId}", async (int userId, bool? isActive, AppDbContext db) =>
+{
+    var loansQuery = db.Loans.AsQueryable().Where(l => l.UserId == userId);
+
+    if (isActive.HasValue)
+        loansQuery = loansQuery.Where(l => l.IsActive == isActive.Value);
+
+    var loans = await loansQuery.OrderByDescending(l => l.ApplicationDate).ToListAsync();
+
+    var response = loans.Select(l => new LoanResponseDto(
+        l.Id,
+        l.Amount,
+        l.Term, // ➕ eklendi
+        l.ApplicationDate,
+        l.IsApproved,
+        l.IsActive
+    ));
+
+    return Results.Ok(response);
+});
+
+/*
+// Loans tablosunu temizle - GEÇİCİ
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Loans.RemoveRange(db.Loans);
+    db.SaveChanges();
+}*/
+
 
 app.Run();
 
@@ -468,5 +575,16 @@ public class TransferDto
     public decimal Amount { get; set; }
     public string? Note { get; set; }
 }
+
+public record LoanRequestDto(int UserId, decimal Amount, int Term);
+public record LoanResponseDto(
+    int Id,
+    decimal Amount,
+    int Term,
+    DateTime ApplicationDate,
+    bool IsApproved,
+    bool IsActive
+);
+
 
 

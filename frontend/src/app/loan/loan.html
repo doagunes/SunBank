@@ -1,0 +1,38 @@
+
+<h3>Kredi Başvurusu</h3>
+<form [formGroup]="loanForm" (ngSubmit)="applyLoan()">
+  <label for="amount">Kredi Tutarı:</label>
+  <input type="number" formControlName="amount" id="amount" required>
+  
+  <br>
+
+  <label for="term">Vade (ay):</label>
+  <input type="number" formControlName="term" id="term" required>
+
+  <br>
+
+  <button type="submit" [disabled]="loanForm.invalid">Başvur</button>
+</form>
+
+<!-- Kredi Geçmişi -->
+<h3>Kredi Geçmişi</h3>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Tutar</th>
+      <th>Başvuru Tarihi</th>
+      <th>Durum</th>
+      <th>Aktif mi?</th>
+      <th>Vade</th> <!-- ✅ TERM SÜRESİ İÇİN BAŞLIK -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let loan of loanHistory">
+      <td>{{ loan.amount }}₺</td>
+      <td>{{ loan.applicationDate | date: 'dd.MM.yyyy' }}</td>
+      <td>{{ loan.isApproved ? 'Onaylandı' : 'Reddedildi' }}</td>
+      <td>{{ loan.isActive ? 'Evet' : 'Hayır' }}</td>
+      <td>{{ loan.term }} ay</td> <!-- ✅ TERM GÖSTERİMİ -->
+    </tr>
+  </tbody>
+</table>

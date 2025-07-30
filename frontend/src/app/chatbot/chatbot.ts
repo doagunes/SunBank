@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './chatbot.html',
   styleUrls: ['./chatbot.css'],
+  
 })
 export class ChatbotComponent {
   messages: { from: 'user' | 'bot'; text: string }[] = [];

@@ -28,6 +28,10 @@ export class UserHeaderComponent {
     this.router.navigate(['/bills']);
   }
 
+  goToLoan() {
+    this.router.navigate(['/loan']);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);
