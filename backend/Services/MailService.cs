@@ -15,8 +15,8 @@ public class MailService
         var message = new MailMessage
         {
             //MailMessage sınıfı, gönderilecek e-postayı temsil eder.
-            //From: Gönderen kişi ve adı ("Intern Bank Support").
-            From = new MailAddress(_fromEmail, "Intern Bank Support"), 
+            //From: Gönderen kişi ve adı ("SunBank Support").
+            From = new MailAddress(_fromEmail, "SunBank Support"), 
             Subject = "Password Reset Link",
             Body = $"Hello!,\n\nYou can reset your password with click the link below:\n{resetLink}\n\nIf you not make this request you may not worry about that.",
             IsBodyHtml = false,
@@ -46,11 +46,11 @@ public class MailService
     if (!string.IsNullOrWhiteSpace(note))
         body += $"<p><strong>Note:</strong> {note}</p>";
 
-    body += "<p>Thank you for using Intern Bank.</p>";
+    body += "<p>Thank you for using SunBank.</p>";
 
     var message = new MailMessage
     {
-        From = new MailAddress(_fromEmail, "Intern Bank"),
+        From = new MailAddress(_fromEmail, "SunBank"),
         Subject = "You have received a transfer!",
         Body = body,
         IsBodyHtml = true

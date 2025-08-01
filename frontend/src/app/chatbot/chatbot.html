@@ -1,13 +1,85 @@
 <div class="chat-container">
-    <div class="chat-box">
-      <div *ngFor="let msg of messages" [class.user]="msg.from === 'user'" [class.bot]="msg.from === 'bot'">
-        <strong>{{ msg.from === 'user' ? 'You' : 'Bot' }}:</strong> {{ msg.text }}
+  <div class="chat-header">
+    <div class="chat-header-content">
+      <div class="sunny-avatar">
+        <div class="sun-icon">☀️</div>
+      </div>
+      <div class="chat-header-info">
+        <h3 class="chat-title">Sunny</h3>
+        <p class="chat-subtitle">Your AI Banking Assistant</p>
+      </div>
+      <div class="chat-status">
+        <div class="status-dot"></div>
+        <span>Online</span>
       </div>
     </div>
-  
-    <form (ngSubmit)="sendMessage()" class="input-box">
-      <input [(ngModel)]="userInput" name="message" placeholder="Send message..." required />
-      <button type="submit" [disabled]="isLoading">Send</button>
+  </div>
+
+  <div class="chat-messages" #chatMessages>
+    <div class="welcome-message" *ngIf="messages.length === 0">
+      <div class="welcome-content">
+        <div class="welcome-icon">👋</div>
+        <h4>Hello! I'm Sunny</h4>
+        <p>How can I help you with your banking today?</p>
+      </div>
+    </div>
+    
+    <div *ngFor="let msg of messages" 
+         class="message-wrapper"
+         [class.user-message]="msg.from === 'user'"
+         [class.bot-message]="msg.from === 'bot'">
+      <div class="message-content">
+        <div class="message-avatar" *ngIf="msg.from === 'bot'">
+          <div class="sun-icon-small">☀️</div>
+        </div>
+        <div class="message-bubble">
+          <p class="message-text">{{ msg.text }}</p>
+          <span class="message-time">{{ getCurrentTime() }}</span>
+        </div>
+        <div class="message-avatar user-avatar" *ngIf="msg.from === 'user'">
+          <div class="user-icon">👤</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading-message" *ngIf="isLoading">
+      <div class="message-content">
+        <div class="message-avatar">
+          <div class="sun-icon-small">☀️</div>
+        </div>
+        <div class="message-bubble loading-bubble">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input-container">
+    <form (ngSubmit)="sendMessage()" class="input-form">
+      <div class="input-wrapper">
+        <input 
+          [(ngModel)]="userInput" 
+          name="message" 
+          placeholder="Type your message here..." 
+          required 
+          class="message-input"
+          [disabled]="isLoading"
+        />
+        <button 
+          type="submit" 
+          class="send-button"
+          [disabled]="isLoading || !userInput.trim()"
+        >
+          <svg class="send-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
     </form>
   </div>
-  
+</div>

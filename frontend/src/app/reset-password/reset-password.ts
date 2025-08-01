@@ -18,6 +18,46 @@ export class ResetPasswordComponent {
   tc: string = '';
   newPassword: string = '';
   confirmNewPassword: string = '';
+  showNewPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+
+  getPasswordStrength(): number {
+    if (this.newPassword.length === 0) return 0;
+    
+    let strength = 0;
+    if (this.newPassword.length >= 8) strength += 25;
+    if (/[A-Z]/.test(this.newPassword)) strength += 25;
+    if (/[a-z]/.test(this.newPassword)) strength += 25;
+    if (/\d/.test(this.newPassword)) strength += 25;
+    
+    return strength;
+  }
+
+  isFormValid(): boolean {
+    return (
+      this.isValidTCKN(this.tc) &&
+      this.isValidPassword(this.newPassword) &&
+      this.newPassword === this.confirmNewPassword &&
+      this.confirmNewPassword.length > 0
+    );
+  }
+
+  // Password rule check methods
+  hasMinLength(): boolean {
+    return this.newPassword.length >= 8;
+  }
+
+  hasUppercase(): boolean {
+    return /[A-Z]/.test(this.newPassword);
+  }
+
+  hasLowercase(): boolean {
+    return /[a-z]/.test(this.newPassword);
+  }
+
+  hasNumber(): boolean {
+    return /\d/.test(this.newPassword);
+  }
 
   resetPassword() {
     if (!this.isValidTCKN(this.tc)) {

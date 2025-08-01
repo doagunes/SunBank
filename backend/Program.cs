@@ -259,19 +259,17 @@ app.MapPost("/api/chat", async (GeminiRequest req, GeminiService geminiService) 
 {
     try
     {
-        if (string.IsNullOrWhiteSpace(req.Prompt))
-            return Results.BadRequest("Prompt cannot be empty");
+        if (req.Messages == null || !req.Messages.Any())
+            return Results.BadRequest("Messages cannot be empty");
 
-        var reply = await geminiService.GetGeminiResponse(req.Prompt);
+        var reply = await geminiService.GetGeminiResponse(req.Messages);
         return Results.Ok(new { response = reply });
     }
     catch (Exception ex)
     {
         return Results.BadRequest($"Error: {ex.Message}");
     }
-})
-.WithName("Chat")
-.WithTags("AI");
+}); 
 
 app.MapGet("/api/account/{userId}", async (int userId, AppDbContext db) =>
 {
@@ -460,7 +458,6 @@ if (isApproved)
     });
 });
 
-
 app.MapGet("/api/loan/{userId}", async (int userId, AppDbContext db) =>
 {
     var loans = await db.Loans
@@ -484,7 +481,6 @@ app.MapPut("/api/loan/close/{loanId}", async (int loanId, AppDbContext db) =>
 
     return Results.Ok("Kredi başarıyla kapatıldı.");
 });
-
 
 app.MapGet("/api/loan/user/{userId}", async (int userId, bool? isActive, AppDbContext db) =>
 {
@@ -565,7 +561,6 @@ public record UserDto(string Tc, string Email, string Password, string FirstName
 public record LoginDto(string Tc, string Password);
 public record ForgotPasswordDto(string Tc, string Email);
 public record ResetPasswordDto(string Tc, string NewPassword);
-public record GeminiRequest(string Prompt);
 public class TransferDto
 {
     public int SenderUserId { get; set; }

@@ -1,93 +1,180 @@
 <div class="signup-container">
-  <h2>Sign Up</h2>
+  <div class="signup-card">
+    <div class="signup-header">
+      <div class="logo-container">
+        <div class="sun-icon">☀️</div>
+        <h1>SunBank</h1>
+      </div>
+      <h2>Create Your Account</h2>
+      <p>Join SunBank for secure and modern banking experience</p>
+    </div>
 
-  <form (ngSubmit)="signup()">
+    <form (ngSubmit)="signup()" class="signup-form">
+      <div class="form-row">
+        <div class="input-group">
+          <div class="floating-input">
+            <input
+              type="text"
+              [(ngModel)]="firstName"
+              name="firstName"
+              id="firstName"
+              required
+              [class.valid]="firstName.trim().length > 0"
+              [class.invalid]="firstName.trim().length === 0 && firstName.length > 0"
+            />
+            <label for="firstName">First Name</label>
+            <div class="input-icon">👤</div>
+          </div>
+        </div>
 
-    <label for="firstName">First Name:</label>
-      <input
-        type="text"
-        [(ngModel)]="firstName"
-        name="firstName"
-        required
-        placeholder="e.g. Doğa"
-    />
+        <div class="input-group">
+          <div class="floating-input">
+            <input
+              type="text"
+              [(ngModel)]="lastName"
+              name="lastName"
+              id="lastName"
+              required
+              [class.valid]="lastName.trim().length > 0"
+              [class.invalid]="lastName.trim().length === 0 && lastName.length > 0"
+            />
+            <label for="lastName">Last Name</label>
+            <div class="input-icon">👤</div>
+          </div>
+        </div>
+      </div>
 
-    <label for="lastName">Last Name:</label>
-      <input
-        type="text"
-        [(ngModel)]="lastName"
-        name="lastName"
-        required
-        placeholder="e.g. Güneş"
-    />
+      <div class="input-group">
+        <div class="floating-input">
+          <input
+            type="text"
+            [(ngModel)]="tc"
+            name="tc"
+            id="tc"
+            required
+            maxlength="11"
+            [class.valid]="isValidTCKN(tc)"
+            [class.invalid]="tc.length === 11 && !isValidTCKN(tc)"
+          />
+          <label for="tc">TC Identity Number</label>
+          <div class="input-icon">🆔</div>
+          <div class="validation-message" *ngIf="tc.length === 11 && !isValidTCKN(tc)">
+            Invalid TC Identity Number
+          </div>
+        </div>
+      </div>
 
-    <label for="tc">TC Identity Number:</label>
-    <input
-      type="text"
-      [(ngModel)]="tc"
-      name="tc"
-      required
-      pattern="[1-9][0-9]{10}"
-    />
+      <div class="input-group">
+        <div class="floating-input">
+          <input
+            type="email"
+            [(ngModel)]="email"
+            (ngModelChange)="onEmailInput()"
+            name="email"
+            id="email"
+            required
+            [class.valid]="isValidEmail(email)"
+            [class.invalid]="email.length > 0 && !isValidEmail(email)"
+          />
+          <label for="email">Email Address</label>
+          <div class="input-icon">📧</div>
+          <div class="validation-message" *ngIf="email.length > 0 && !isValidEmail(email)">
+            Please enter a valid email address
+          </div>
+        </div>
+      </div>
 
-    <label for="email">Email:</label>
-        <input
-          type="email"
-          [(ngModel)]="email"
-          (ngModelChange)="onEmailInput()"
-          name="email"
-          required
-    />
+      <div class="input-group">
+        <div class="floating-input">
+          <input
+            type="tel"
+            [(ngModel)]="phoneNumber"
+            name="phone"
+            id="phone"
+            required
+            maxlength="11"
+            [class.valid]="isValidPhoneNumber(phoneNumber)"
+            [class.invalid]="phoneNumber.length === 11 && !isValidPhoneNumber(phoneNumber)"
+          />
+          <label for="phone">Phone Number</label>
+          <div class="input-icon">📱</div>
+          <div class="validation-message" *ngIf="phoneNumber.length === 11 && !isValidPhoneNumber(phoneNumber)">
+            Phone number must start with 05 and be 11 digits
+          </div>
+        </div>
+      </div>
 
-    <label for="phone">Phone Number:</label>
-      <input
-        type="text"
-        [(ngModel)]="phoneNumber"
-        name="phone"
-        required
-        pattern="05[0-9]{9}"
-        placeholder="05XXXXXXXXX"
-    />
+      <div class="input-group">
+        <div class="floating-input">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="password"
+            (ngModelChange)="onPasswordInput()"
+            name="password"
+            id="password"
+            required
+            [class.valid]="isPasswordValid()"
+            [class.invalid]="password.length > 0 && !isPasswordValid()"
+          />
+          <label for="password">Password</label>
+          <div class="input-icon">🔒</div>
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        
+        <div class="password-strength" *ngIf="password.length > 0">
+          <div class="strength-bar">
+            <div class="strength-fill" [style.width.%]="getPasswordStrength()"></div>
+          </div>
+          <div class="password-rules">
+            <div class="rule-item" [class.valid]="passwordRules.length">
+              <span class="rule-icon">{{ passwordRules.length ? '✅' : '⭕' }}</span>
+              At least 8 characters
+            </div>
+            <div class="rule-item" [class.valid]="passwordRules.uppercase">
+              <span class="rule-icon">{{ passwordRules.uppercase ? '✅' : '⭕' }}</span>
+              One uppercase letter
+            </div>
+            <div class="rule-item" [class.valid]="passwordRules.lowercase">
+              <span class="rule-icon">{{ passwordRules.lowercase ? '✅' : '⭕' }}</span>
+              One lowercase letter
+            </div>
+            <div class="rule-item" [class.valid]="passwordRules.number">
+              <span class="rule-icon">{{ passwordRules.number ? '✅' : '⭕' }}</span>
+              One number
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div class="input-group">
+        <div class="floating-input">
+          <input
+            type="password"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            id="confirmPassword"
+            required
+            [class.valid]="password === confirmPassword && confirmPassword.length > 0"
+            [class.invalid]="confirmPassword.length > 0 && password !== confirmPassword"
+          />
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-icon">🔒</div>
+          <div class="validation-message" *ngIf="confirmPassword.length > 0 && password !== confirmPassword">
+            Passwords do not match
+          </div>
+        </div>
+      </div>
 
-  <!--<ul class="email-rules">
-    <li [class.valid]="emailRules.notEmpty">
-      Not empty
-    </li>
-    <li [class.valid]="emailRules.hasAtSymbol">
-      Contains &#64;
-    </li>
-    <li [class.valid]="emailRules.hasDotAfterAt">
-      Dot (.) after &#64;
-    </li>
-  </ul> -->
-  
-  <label for="password">Password:</label>
-  <input
-    type="text"
-    [(ngModel)]="password"
-    (ngModelChange)="onPasswordInput()"
-    name="password"
-    required
-  />
-  
-  <ul class="password-rules">
-    <li [class.valid]="passwordRules.length">At least 8 characters</li>
-    <li [class.valid]="passwordRules.uppercase">One uppercase letter</li>
-    <li [class.valid]="passwordRules.lowercase">One lowercase letter</li>
-    <li [class.valid]="passwordRules.number">One number</li>
-  </ul>
-  
-    
+      <button type="submit" class="signup-button" [disabled]="!isFormValid()">
+        <span class="button-text">Create Account</span>
+        <span class="button-icon">→</span>
+      </button>
+    </form>
 
-  <label for="confirmPassword">Confirm Password:</label>
-  <input
-    type="password"
-    [(ngModel)]="confirmPassword"
-    name="confirmPassword"
-    required
-  />
-  
-    <button type="submit">Sign Up</button>
-  </form>
+    <div class="login-link">
+      Already have an account?<a routerLink="/login"> Login</a>
+    </div>
+  </div>
 </div>

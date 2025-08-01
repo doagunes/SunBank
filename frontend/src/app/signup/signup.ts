@@ -20,6 +20,7 @@ export class SignupComponent {
   password: string = '';
   phoneNumber: string = '';
   confirmPassword: string = '';
+  showPassword: boolean = false;
   
   passwordRules = {
     length: false,
@@ -33,7 +34,6 @@ export class SignupComponent {
     hasAtSymbol: false,
     hasDotAfterAt: false,
   };
-
 
   onPasswordInput() {
     const password = this.password;
@@ -60,6 +60,31 @@ export class SignupComponent {
       this.passwordRules.uppercase &&
       this.passwordRules.lowercase &&
       this.passwordRules.number
+    );
+  }
+
+  getPasswordStrength(): number {
+    if (this.password.length === 0) return 0;
+    
+    let strength = 0;
+    if (this.passwordRules.length) strength += 25;
+    if (this.passwordRules.uppercase) strength += 25;
+    if (this.passwordRules.lowercase) strength += 25;
+    if (this.passwordRules.number) strength += 25;
+    
+    return strength;
+  }
+
+  isFormValid(): boolean {
+    return (
+      this.firstName.trim().length > 0 &&
+      this.lastName.trim().length > 0 &&
+      this.isValidTCKN(this.tc) &&
+      this.isValidEmail(this.email) &&
+      this.isValidPhoneNumber(this.phoneNumber) &&
+      this.isPasswordValid() &&
+      this.password === this.confirmPassword &&
+      this.confirmPassword.length > 0
     );
   }
 

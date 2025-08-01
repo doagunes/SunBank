@@ -23,6 +23,10 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
+  isFormValid(): boolean {
+    return this.tc.length === 11 && this.password.length >= 6;
+  }
+
   login() {
     const payload = {
       tc: this.tc,
