@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { TransferPayload, TransferService } from '../services/transfer.service';
 
 @Component({
   selector: 'app-transfer-money',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './transfer-money.html',
   styleUrls: ['./transfer-money.css']
 })

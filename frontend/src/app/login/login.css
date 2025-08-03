@@ -1,3 +1,44 @@
+/* Back to Home Button */
+.back-to-home {
+  position: absolute;
+  top: 20px;
+  left: 8px;
+  z-index: 10;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7f8c8d;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #ffc107;
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.back-icon {
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover .back-icon {
+  transform: translateX(-2px);
+}
+
 /* Modern SunBank Login Design */
 .login-container {
   min-height: 100vh;

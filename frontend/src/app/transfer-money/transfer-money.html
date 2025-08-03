@@ -1,22 +1,239 @@
-<h2>Transfer Money</h2>
+<div class="transfer-container">
+  <!-- Header Section -->
+  <section class="transfer-header">
+    <div class="header-content">
+      <div class="header-icon">💰</div>
+      <div class="header-text">
+        <h1>Transfer Money</h1>
+        <p>Send money securely to friends, family, or businesses</p>
+      </div>
+    </div>
+  </section>
 
-<form (ngSubmit)="submitTransfer()" #transferForm="ngForm">
-  <label for="ibanTo">Recipient IBAN*</label>
-  <input id="ibanTo" name="ibanTo" [(ngModel)]="ibanTo" required />
+  <!-- Transfer Form Section -->
+  <section class="transfer-form-section">
+    <div class="form-container">
+      <div class="form-header">
+        <div class="form-icon">📤</div>
+        <h2>New Transfer</h2>
+        <p>Fill in the details below to complete your transfer</p>
+      </div>
 
-  <label for="recipientFirstName">Recipient First Name*</label>
-  <input id="recipientFirstName" name="recipientFirstName" [(ngModel)]="recipientFirstName" required />
+      <form (ngSubmit)="submitTransfer()" #transferForm="ngForm" class="transfer-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ibanTo">Recipient IBAN*</label>
+            <div class="input-wrapper">
+              <input 
+                id="ibanTo" 
+                name="ibanTo" 
+                [(ngModel)]="ibanTo" 
+                required 
+                placeholder="TR00 0000 0000 0000 0000 0000 00"
+                class="form-input"
+              />
+              <div class="input-icon">🏦</div>
+            </div>
+          </div>
+        </div>
 
-  <label for="recipientLastName">Recipient Last Name*</label>
-  <input id="recipientLastName" name="recipientLastName" [(ngModel)]="recipientLastName" required />
+        <div class="form-row">
+          <div class="form-group">
+            <label for="recipientFirstName">Recipient First Name*</label>
+            <div class="input-wrapper">
+              <input 
+                id="recipientFirstName" 
+                name="recipientFirstName" 
+                [(ngModel)]="recipientFirstName" 
+                required 
+                placeholder="Enter first name"
+                class="form-input"
+              />
+              <div class="input-icon">👤</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="recipientLastName">Recipient Last Name*</label>
+            <div class="input-wrapper">
+              <input 
+                id="recipientLastName" 
+                name="recipientLastName" 
+                [(ngModel)]="recipientLastName" 
+                required 
+                placeholder="Enter last name"
+                class="form-input"
+              />
+              <div class="input-icon">👤</div>
+            </div>
+          </div>
+        </div>
 
-  <label for="amount">Amount (TRY)*</label>
-  <input type="number" id="amount" name="amount" [(ngModel)]="amount" required min="1" />
+        <div class="form-row">
+          <div class="form-group amount-group">
+            <label for="amount">Amount (TRY)*</label>
+            <div class="input-wrapper">
+              <input 
+                type="number" 
+                id="amount" 
+                name="amount" 
+                [(ngModel)]="amount" 
+                required 
+                min="1" 
+                placeholder="0.00"
+                class="form-input amount-input"
+              />
+              <div class="input-icon">₺</div>
+            </div>
+          </div>
+        </div>
 
-  <label for="note">Note (optional)</label>
-  <textarea id="note" name="note" [(ngModel)]="note"></textarea>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="note">Note (Optional)</label>
+            <div class="input-wrapper">
+              <textarea 
+                id="note" 
+                name="note" 
+                [(ngModel)]="note"
+                placeholder="Add a note for this transfer..."
+                class="form-input textarea-input"
+                rows="3"
+              ></textarea>
+              <div class="input-icon textarea-icon">📝</div>
+            </div>
+          </div>
+        </div>
 
-  <button type="submit" [disabled]="isSubmitting">Send Money</button>
-</form>
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            [disabled]="isSubmitting" 
+            class="submit-btn"
+          >
+            <span class="btn-icon" *ngIf="!isSubmitting">📤</span>
+            <span class="btn-icon" *ngIf="isSubmitting">⏳</span>
+            <span>{{ isSubmitting ? 'Processing...' : 'Send Money' }}</span>
+          </button>
+        </div>
+      </form>
 
-<p *ngIf="message">{{ message }}</p>
+      <!-- Message Display -->
+      <div class="message-container" *ngIf="message">
+        <div class="message" [class]="message.includes('successful') ? 'success' : 'error'">
+          <div class="message-icon">
+            {{ message.includes('successful') ? '✅' : '❌' }}
+          </div>
+          <div class="message-text">{{ message }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Actions Section -->
+  <section class="quick-actions">
+    <div class="section-header">
+      <h2>Quick Actions</h2>
+      <p>Frequently used transfer options</p>
+    </div>
+    
+    <div class="actions-grid">
+      <div class="action-item">
+        <div class="action-icon">👥</div>
+        <span>Saved Recipients</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📱</div>
+        <span>Mobile Transfer</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">🌍</div>
+        <span>International</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📅</div>
+        <span>Scheduled Transfer</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📊</div>
+        <span>Transfer History</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">⚙️</div>
+        <span>Transfer Limits</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Transfers Section -->
+  <section class="recent-transfers">
+    <div class="section-header">
+      <h2>Recent Transfers</h2>
+      <p>Your latest transfer activity</p>
+    </div>
+    
+    <div class="transfers-list">
+      <div class="transfer-item">
+        <div class="transfer-icon">👤</div>
+        <div class="transfer-details">
+          <div class="transfer-title">John Doe</div>
+          <div class="transfer-date">Today, 3:45 PM</div>
+          <div class="transfer-note">Rent payment</div>
+        </div>
+        <div class="transfer-amount negative">-₺2,500.00</div>
+      </div>
+      
+      <div class="transfer-item">
+        <div class="transfer-icon">👤</div>
+        <div class="transfer-details">
+          <div class="transfer-title">Jane Smith</div>
+          <div class="transfer-date">Yesterday, 1:30 PM</div>
+          <div class="transfer-note">Dinner payment</div>
+        </div>
+        <div class="transfer-amount negative">-₺85.50</div>
+      </div>
+      
+      <div class="transfer-item">
+        <div class="transfer-icon">🏢</div>
+        <div class="transfer-details">
+          <div class="transfer-title">ABC Company</div>
+          <div class="transfer-date">Mar 15, 2024</div>
+          <div class="transfer-note">Invoice payment</div>
+        </div>
+        <div class="transfer-amount negative">-₺1,200.00</div>
+      </div>
+      
+      <div class="transfer-item">
+        <div class="transfer-icon">👤</div>
+        <div class="transfer-details">
+          <div class="transfer-title">Mike Johnson</div>
+          <div class="transfer-date">Mar 14, 2024</div>
+          <div class="transfer-note">Gift</div>
+        </div>
+        <div class="transfer-amount negative">-₺150.00</div>
+      </div>
+      
+      <div class="transfer-item">
+        <div class="transfer-icon">🏠</div>
+        <div class="transfer-details">
+          <div class="transfer-title">Landlord</div>
+          <div class="transfer-date">Mar 10, 2024</div>
+          <div class="transfer-note">Monthly rent</div>
+        </div>
+        <div class="transfer-amount negative">-₺3,000.00</div>
+      </div>
+    </div>
+    
+    <div class="view-all-transfers">
+      <button class="view-all-btn" routerLink="/dashboard">
+        <span>Back to Home</span>
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </section>
+</div>

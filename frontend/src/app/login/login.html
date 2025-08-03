@@ -1,5 +1,12 @@
 <div class="login-container">
   <div class="login-card">
+    <div class="back-to-home">
+      <button routerLink="/" class="back-button">
+        <span class="back-icon">←</span>
+        <span>Back to Home</span>
+      </button>
+    </div>
+    
     <div class="login-header">
       <div class="logo-container">
         <div class="sun-icon">☀️</div>
@@ -59,7 +66,7 @@
             </svg>
           </button>
           <div class="validation-message" *ngIf="password.length > 0 && password.length < 6">
-            Password must be at least 6 characters
+            Password must be at least 8 characters
           </div>
         </div>
       </div>

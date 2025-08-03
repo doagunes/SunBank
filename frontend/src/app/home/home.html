@@ -1,15 +1,163 @@
-  
-  <!-- Mevcut Haber Bölümünüz -->
-  <div class="news-section">
-    <h2>Global News</h2>
-    <div *ngIf="newsArticles.length > 0; else loading">
-      <div *ngFor="let article of newsArticles" class="news-card">
-        <h3>{{ article.title }}</h3>
-        <p>{{ article.description }}</p>
-        <a [href]="article.url" target="_blank">Read</a>
+<div class="home-container">
+  <!-- Modern Intro Area -->
+  <section class="intro-section">
+    <div class="intro-content">
+      <div class="logo-container">
+        <div class="sun-icon">☀️</div>
+        <h1 class="main-title">SunBank</h1>
+      </div>
+      <p class="slogan">Brighten your financial future.</p>
+      
+      <div class="action-buttons">
+        <div class="action-card login-card" routerLink="/login">
+          <div class="card-icon">🔐</div>
+          <h3>Log In</h3>
+          <p>Access your account</p>
+        </div>
+        
+        <div class="action-card signup-card" routerLink="/signup">
+          <div class="card-icon">✨</div>
+          <h3>Not registered yet?</h3>
+          <p>Join SunBank today</p>
+        </div>
       </div>
     </div>
-    <ng-template #loading>
-      <p>Loading..</p>
-    </ng-template>
+  </section>
+
+   <!-- Sunny Introduction Section -->
+   <section class="sunny-intro-section">
+    <div class="section-header">
+      <h2>☀️ Meet Sunny</h2>
+      <p>Your AI Banking Assistant</p>
+    </div>
+    
+    <div class="sunny-intro-container">
+      <div class="sunny-intro-card">
+        <div class="sunny-intro-avatar">
+          <div class="sunny-intro-icon">☀️</div>
+        </div>
+        <div class="sunny-intro-content">
+          <h3>Your Personal Banking Assistant</h3>
+          <p>Sunny is here to help you with all your banking needs. From account inquiries to financial advice, Sunny provides instant, intelligent assistance 24/7.</p>
+          
+          <div class="sunny-features">
+            <div class="feature-item">
+              <div class="feature-icon">💬</div>
+              <span>Instant Chat Support</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">💰</div>
+              <span>Financial Guidance</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🔒</div>
+              <span>Secure & Private</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <span>24/7 Available</span>
+            </div>
+          </div>
+          
+          <button class="sunny-intro-button" (click)="openChatbot()">
+            <div class="button-icon">💬</div>
+            <span>Start Chatting with Sunny</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News Section -->
+  <section class="news-section">
+    <div class="section-header">
+      <h2>📰 Latest News</h2>
+      <p>Stay updated with the latest financial news</p>
+    </div>
+    
+    <div class="news-container">
+      <button class="nav-arrow prev" (click)="scrollNews('left')" [disabled]="!canScrollLeft">
+        ‹
+      </button>
+      
+      <div *ngIf="newsArticles.length > 0; else loading" 
+           class="news-cards" 
+           #newsContainer
+           (scroll)="updateScrollButtons()">
+        <div *ngFor="let article of newsArticles" class="news-card">
+          <div class="news-image">
+            <img [src]="getImageUrl(article)" 
+                 [alt]="article.title"
+                 (error)="onImageError($event)"
+                 (load)="onImageLoad($event)"
+                 [class.loading]="!article.imageLoaded"
+                 [class.error]="article.imageError" />
+            <div class="image-placeholder" *ngIf="article.imageError">
+            </div>
+          </div>
+          <div class="news-content">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.description }}</p>
+            <a [href]="article.url" target="_blank" class="read-more">Read More →</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="nav-arrow next" (click)="scrollNews('right')" [disabled]="!canScrollRight">
+        ›
+      </button>
+      
+      <ng-template #loading>
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Loading latest news...</p>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+
+  <!-- Bank Promotions Section -->
+  <section class="promotions-section">
+    <div class="section-header">
+      <h2>🏦 SunBank Services</h2>
+      <p>Discover our amazing financial products</p>
+    </div>
+    
+    <div class="promotions-container">
+      <div class="promo-card">
+        <div class="promo-icon">💳</div>
+        <h3>Apply for a SunCredit</h3>
+        <p>Get instant approval for personal loans with competitive rates</p>
+        <button class="promo-button">Apply Now</button>
+      </div>
+      
+      <div class="promo-card">
+        <div class="promo-icon">💰</div>
+        <h3>High Interest Savings</h3>
+        <p>Earn up to 5.2% APY on your savings with our premium accounts</p>
+        <button class="promo-button">Learn More</button>
+      </div>
+      
+      <div class="promo-card">
+        <div class="promo-icon">🏠</div>
+        <h3>Mortgage Solutions</h3>
+        <p>Flexible home financing options with low down payments</p>
+        <button class="promo-button">Get Quote</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sunny AI Assistant Button -->
+  <div class="sunny-button" (click)="openChatbot()">
+    <div class="sunny-icon">☀️</div>
+    <div class="sunny-tooltip">Did you meet Sunny?</div>
   </div>
+
+  <!-- Chat Modal Overlay -->
+  <div class="chat-modal-overlay" [class.active]="isChatOpen" (click)="closeChatbot($event)">
+    <div class="chat-modal" (click)="$event.stopPropagation()">
+      <button class="chat-modal-close" (click)="closeChatbot()">×</button>
+      <app-chatbot></app-chatbot>
+    </div>
+  </div>
+</div>

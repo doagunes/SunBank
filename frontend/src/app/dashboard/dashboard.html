@@ -1,2 +1,127 @@
-<h1>Hoş geldin, IntBank Dashboard!</h1>
-<p>Burada fatura ödeme, para transferi ve kredi işlemlerini yapabilirsin.</p>
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <section class="welcome-section">
+    <div class="welcome-content">
+      <div class="welcome-header">
+        <div class="welcome-icon">🏦</div>
+        <h1>Welcome to SunBank Dashboard</h1>
+        <p>Manage your finances with ease and security</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Cards Section -->
+  <section class="dashboard-cards">
+    <div class="cards-container">
+      <!-- My Accounts Card -->
+      <div class="dashboard-card" routerLink="/my-accounts">
+        <div class="card-icon">💳</div>
+        <div class="card-content">
+          <h3>My Accounts</h3>
+          <p>View your account balances, transaction history, and manage your banking accounts</p>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+
+      <!-- Transfer Money Card -->
+      <div class="dashboard-card" routerLink="/transfer-money">
+        <div class="card-icon">💰</div>
+        <div class="card-content">
+          <h3>Transfer Money</h3>
+          <p>Send money to other accounts, make international transfers, and manage your payments</p>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+
+      <!-- Bill Payments Card -->
+      <div class="dashboard-card" routerLink="/bills">
+        <div class="card-icon">📄</div>
+        <div class="card-content">
+          <h3>Bill Payments</h3>
+          <p>Pay your bills, set up automatic payments, and manage your recurring expenses</p>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+
+      <!-- Loan Application Card -->
+      <div class="dashboard-card" routerLink="/loan">
+        <div class="card-icon">🏠</div>
+        <div class="card-content">
+          <h3>Loan Application</h3>
+          <p>Apply for personal loans, mortgages, and other financing options with competitive rates</p>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+
+      <!-- Credit Card Card -->
+      <div class="dashboard-card" routerLink="/credit-card">
+        <div class="card-icon">💳</div>
+        <div class="card-content">
+          <h3>Credit Card</h3>
+          <p>Manage your credit cards, view statements, and track your spending</p>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+
+      <!-- Investment Card -->
+      <div class="dashboard-card" routerLink="/investment">
+        <div class="card-icon">📈</div>
+        <div class="card-content">
+          <h3>Investments</h3>
+          <p>Explore investment opportunities, manage your portfolio, and grow your wealth</p>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Actions Section -->
+  <section class="quick-actions">
+    <div class="section-header">
+      <h2>Quick Actions</h2>
+      <p>Frequently used banking services</p>
+    </div>
+    
+    <div class="quick-actions-container">
+      <div class="quick-action">
+        <div class="action-icon">📱</div>
+        <span>Mobile Banking</span>
+      </div>
+      
+      <div class="quick-action">
+        <div class="action-icon">🔒</div>
+        <span>Security Settings</span>
+      </div>
+      
+      <div class="quick-action">
+        <div class="action-icon">📞</div>
+        <span>Contact Support</span>
+      </div>
+      
+      <div class="quick-action">
+        <div class="action-icon">📋</div>
+        <span>Account Statements</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logout Button -->
+  <div class="logout-button-fixed" (click)="logout()">
+    <div class="logout-icon">🚪</div>
+    <div class="logout-tooltip">Logout</div>
+  </div>
+
+  <!-- Sunny AI Assistant Button -->
+  <div class="sunny-button" (click)="openChatbot()">
+    <div class="sunny-icon">☀️</div>
+    <div class="sunny-tooltip">Did you meet Sunny?</div>
+  </div>
+
+  <!-- Chat Modal Overlay -->
+  <div class="chat-modal-overlay" [class.active]="isChatOpen" (click)="closeChatbot($event)">
+    <div class="chat-modal" (click)="$event.stopPropagation()">
+      <button class="chat-modal-close" (click)="closeChatbot()">×</button>
+      <app-chatbot></app-chatbot>
+    </div>
+  </div>
+</div>

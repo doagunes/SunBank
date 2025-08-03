@@ -1,38 +1,246 @@
+<div class="loan-container">
+  <!-- Header Section -->
+  <section class="loan-header">
+    <div class="header-content">
+      <div class="header-icon">🏠</div>
+      <div class="header-text">
+        <h1>Loan Application</h1>
+        <p>Apply for loans and manage your existing loans</p>
+      </div>
+    </div>
+  </section>
 
-<h3>Kredi Başvurusu</h3>
-<form [formGroup]="loanForm" (ngSubmit)="applyLoan()">
-  <label for="amount">Kredi Tutarı:</label>
-  <input type="number" formControlName="amount" id="amount" required>
-  
-  <br>
+  <!-- Loan Overview Section -->
+  <section class="loan-overview">
+    <div class="overview-cards">
+      <div class="overview-card">
+        <div class="overview-icon">💰</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getTotalActiveLoans() | currency:'TRY' }}</div>
+          <div class="overview-label">Active Loans</div>
+        </div>
+      </div>
+      
+      <div class="overview-card">
+        <div class="overview-icon">📊</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getTotalLoanHistory() }}</div>
+          <div class="overview-label">Total Applications</div>
+        </div>
+      </div>
+      
+      <div class="overview-card">
+        <div class="overview-icon">✅</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getApprovedLoans() }}</div>
+          <div class="overview-label">Approved</div>
+        </div>
+      </div>
+      
+      <div class="overview-card">
+        <div class="overview-icon">📈</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getAverageLoanAmount() | currency:'TRY' }}</div>
+          <div class="overview-label">Average Amount</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <label for="term">Vade (ay):</label>
-  <input type="number" formControlName="term" id="term" required>
+  <!-- Loan Application Section -->
+  <section class="loan-application">
+    <div class="application-container">
+      <div class="application-header">
+        <div class="application-icon">📝</div>
+        <h2>New Loan Application</h2>
+        <p>Fill in the details below to apply for a loan</p>
+      </div>
 
-  <br>
+      <form [formGroup]="loanForm" (ngSubmit)="applyLoan()" class="loan-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="amount">Loan Amount (TRY)*</label>
+            <div class="input-wrapper">
+              <input 
+                type="number" 
+                formControlName="amount" 
+                id="amount" 
+                required 
+                placeholder="Enter loan amount"
+                class="form-input"
+              />
+              <div class="input-icon">₺</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="term">Loan Term (Months)*</label>
+            <div class="input-wrapper">
+              <input 
+                type="number" 
+                formControlName="term" 
+                id="term" 
+                required 
+                placeholder="Enter loan term"
+                class="form-input"
+              />
+              <div class="input-icon">📅</div>
+            </div>
+          </div>
+        </div>
 
-  <button type="submit" [disabled]="loanForm.invalid">Başvur</button>
-</form>
+        <div class="loan-info">
+          <div class="info-card">
+            <div class="info-icon">💡</div>
+            <div class="info-content">
+              <h4>Loan Information</h4>
+              <ul>
+                <li>Interest Rate: 12% annually</li>
+                <li>Minimum Amount: ₺1,000</li>
+                <li>Maximum Amount: ₺100,000</li>
+                <li>Term Range: 6-60 months</li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
-<!-- Kredi Geçmişi -->
-<h3>Kredi Geçmişi</h3>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Tutar</th>
-      <th>Başvuru Tarihi</th>
-      <th>Durum</th>
-      <th>Aktif mi?</th>
-      <th>Vade</th> <!-- ✅ TERM SÜRESİ İÇİN BAŞLIK -->
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let loan of loanHistory">
-      <td>{{ loan.amount }}₺</td>
-      <td>{{ loan.applicationDate | date: 'dd.MM.yyyy' }}</td>
-      <td>{{ loan.isApproved ? 'Onaylandı' : 'Reddedildi' }}</td>
-      <td>{{ loan.isActive ? 'Evet' : 'Hayır' }}</td>
-      <td>{{ loan.term }} ay</td> <!-- ✅ TERM GÖSTERİMİ -->
-    </tr>
-  </tbody>
-</table>
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            [disabled]="loanForm.invalid" 
+            class="submit-btn"
+          >
+            <span class="btn-icon">📤</span>
+            <span>Apply for Loan</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Active Loans Section -->
+  <section class="active-loans" *ngIf="activeLoans.length > 0">
+    <div class="section-header">
+      <h2>Active Loans</h2>
+      <p>Your currently active loans</p>
+    </div>
+    
+    <div class="loans-grid">
+      <div class="loan-card active" *ngFor="let loan of activeLoans">
+        <div class="loan-header">
+          <div class="loan-icon">💰</div>
+          <div class="loan-status approved">
+            Active
+          </div>
+        </div>
+        
+        <div class="loan-content">
+          <div class="loan-title">Personal Loan</div>
+          <div class="loan-details">
+            <div class="loan-amount">{{ loan.amount | currency:'TRY':'symbol':'1.2-2' }}</div>
+            <div class="loan-term">
+              <span class="term-label">Term:</span>
+              <span class="term-value">{{ loan.term }} months</span>
+            </div>
+          </div>
+          
+          <div class="loan-info-details">
+            <div class="info-item">
+              <span class="info-label">Application Date:</span>
+              <span class="info-value">{{ loan.applicationDate | date:'MMM dd, yyyy' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Interest Rate:</span>
+              <span class="info-value">12% annually</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="loan-actions">
+          <button class="action-btn primary">
+            <span class="btn-icon">📊</span>
+            <span>View Details</span>
+          </button>
+          
+          <button class="action-btn secondary" (click)="closeLoan(loan.id)">
+            <span class="btn-icon">🔒</span>
+            <span>Close Loan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loan History Section -->
+  <section class="loan-history">
+    <div class="section-header">
+      <h2>Loan History</h2>
+      <p>Your complete loan application history</p>
+    </div>
+    
+    <div class="history-list">
+      <div class="history-item" *ngFor="let loan of loanHistory" [class]="getLoanStatusClass(loan)">
+        <div class="history-icon">{{ getLoanIcon(loan) }}</div>
+        <div class="history-details">
+          <div class="history-title">Personal Loan</div>
+          <div class="history-date">{{ loan.applicationDate | date:'MMM dd, yyyy' }}</div>
+          <div class="history-amount">{{ loan.amount | currency:'TRY':'symbol':'1.2-2' }}</div>
+          <div class="history-term">{{ loan.term }} months</div>
+        </div>
+        <div class="history-status" [class]="loan.isApproved ? 'approved' : 'rejected'">
+          {{ loan.isApproved ? 'Approved' : 'Rejected' }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Actions Section -->
+  <section class="quick-actions">
+    <div class="section-header">
+      <h2>Quick Actions</h2>
+      <p>Manage your loans efficiently</p>
+    </div>
+    
+    <div class="actions-grid">
+      <div class="action-item">
+        <div class="action-icon">📊</div>
+        <span>Loan Calculator</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📄</div>
+        <span>Download Documents</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📞</div>
+        <span>Contact Support</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📋</div>
+        <span>Loan Terms</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">🔒</div>
+        <span>Security Info</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">⚙️</div>
+        <span>Settings</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Back to Home Button -->
+  <section class="back-home">
+    <div class="view-all-btn-container">
+      <button class="view-all-btn" routerLink="/dashboard">
+        <span>Back to Home</span>
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </section>
+</div>

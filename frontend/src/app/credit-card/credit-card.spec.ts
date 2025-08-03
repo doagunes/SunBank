@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserHeader } from './user-header';
+import { CreditCard } from './credit-card';
 
-describe('UserHeader', () => {
-  let component: UserHeader;
-  let fixture: ComponentFixture<UserHeader>;
+describe('CreditCard', () => {
+  let component: CreditCard;
+  let fixture: ComponentFixture<CreditCard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserHeader]
+      imports: [CreditCard]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserHeader);
+    fixture = TestBed.createComponent(CreditCard);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

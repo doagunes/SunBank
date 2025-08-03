@@ -1,19 +1,208 @@
-<h2>My Bills</h2>
-<table>
-  <tr>
-    <th>Amount</th>
-    <th>Due Date</th>
-    <th>Status</th>
-    <th>Action</th>
-  </tr>
-  <tr *ngFor="let bill of bills">
-    <td>{{ bill.amount | currency:'TRY' }}</td>
-    <td>{{ bill.dueDate | date }}</td>
-    <td>{{ bill.isPaid ? 'Paid' : 'Pending' }}</td>
-    <td>
-      <button (click)="payBill(bill.id)" [disabled]="bill.isPaid">
-        Pay
+<div class="bills-container">
+  <!-- Header Section -->
+  <section class="bills-header">
+    <div class="header-content">
+      <div class="header-icon">📄</div>
+      <div class="header-text">
+        <h1>Bill Payments</h1>
+        <p>Manage and pay your bills with ease</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bills Overview Section -->
+  <section class="bills-overview">
+    <div class="overview-cards">
+      <div class="overview-card">
+        <div class="overview-icon">📊</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getTotalBills() | currency:'TRY' }}</div>
+          <div class="overview-label">Total Bills</div>
+        </div>
+      </div>
+      
+      <div class="overview-card">
+        <div class="overview-icon">⏰</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getPendingBills() }}</div>
+          <div class="overview-label">Pending</div>
+        </div>
+      </div>
+      
+      <div class="overview-card">
+        <div class="overview-icon">✅</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getPaidBills() }}</div>
+          <div class="overview-label">Paid</div>
+        </div>
+      </div>
+      
+      <div class="overview-card">
+        <div class="overview-icon">🚨</div>
+        <div class="overview-content">
+          <div class="overview-value">{{ getOverdueBills() }}</div>
+          <div class="overview-label">Overdue</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bills Cards Section -->
+  <section class="bills-cards">
+    <div class="section-header">
+      <h2>Your Bills</h2>
+      <p>Manage your upcoming and past bills</p>
+    </div>
+    
+    <div class="bills-grid">
+      <div class="bill-card" *ngFor="let bill of bills" [class]="getBillStatusClass(bill)">
+        <div class="bill-header">
+          <div class="bill-icon">{{ getBillIcon(bill) }}</div>
+          <div class="bill-status" [class]="bill.isPaid ? 'paid' : 'pending'">
+            {{ bill.isPaid ? 'Paid' : 'Pending' }}
+          </div>
+        </div>
+        
+        <div class="bill-content">
+          <div class="bill-title">{{ getBillTitle(bill) }}</div>
+          <div class="bill-details">
+            <div class="bill-amount">{{ bill.amount | currency:'TRY':'symbol':'1.2-2' }}</div>
+            <div class="bill-date">
+              <span class="date-label">Due Date:</span>
+              <span class="date-value">{{ bill.dueDate | date:'MMM dd, yyyy' }}</span>
+            </div>
+          </div>
+          
+          <div class="bill-description">
+            <span class="description-label">Description:</span>
+            <span class="description-text">{{ getBillDescription(bill) }}</span>
+          </div>
+        </div>
+        
+        <div class="bill-actions">
+          <button 
+            class="pay-btn" 
+            (click)="payBill(bill.id)" 
+            [disabled]="bill.isPaid"
+            [class]="bill.isPaid ? 'paid' : 'pending'"
+          >
+            <span class="btn-icon">{{ bill.isPaid ? '✅' : '💳' }}</span>
+            <span>{{ bill.isPaid ? 'Paid' : 'Pay Now' }}</span>
+          </button>
+          
+          <button class="details-btn">
+            <span class="btn-icon">📋</span>
+            <span>Details</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Actions Section -->
+  <section class="quick-actions">
+    <div class="section-header">
+      <h2>Quick Actions</h2>
+      <p>Manage your bill payments efficiently</p>
+    </div>
+    
+    <div class="actions-grid">
+      <div class="action-item">
+        <div class="action-icon">📅</div>
+        <span>Schedule Payment</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📱</div>
+        <span>Mobile Payment</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📊</div>
+        <span>Payment History</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">🔔</div>
+        <span>Payment Reminders</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">📄</div>
+        <span>Download Receipts</span>
+      </div>
+      
+      <div class="action-item">
+        <div class="action-icon">⚙️</div>
+        <span>Auto-Pay Settings</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment History Section -->
+  <section class="payment-history">
+    <div class="section-header">
+      <h2>Recent Payments</h2>
+      <p>Your latest payment activity</p>
+    </div>
+    
+    <div class="payments-list">
+      <div class="payment-item">
+        <div class="payment-icon">🏠</div>
+        <div class="payment-details">
+          <div class="payment-title">Rent Payment</div>
+          <div class="payment-date">Today, 2:30 PM</div>
+          <div class="payment-note">Monthly rent - March 2024</div>
+        </div>
+        <div class="payment-amount negative">-₺3,200.00</div>
+      </div>
+      
+      <div class="payment-item">
+        <div class="payment-icon">⚡</div>
+        <div class="payment-details">
+          <div class="payment-title">Electricity Bill</div>
+          <div class="payment-date">Yesterday, 4:15 PM</div>
+          <div class="payment-note">February 2024 bill</div>
+        </div>
+        <div class="payment-amount negative">-₺185.50</div>
+      </div>
+      
+      <div class="payment-item">
+        <div class="payment-icon">💧</div>
+        <div class="payment-details">
+          <div class="payment-title">Water Bill</div>
+          <div class="payment-date">Mar 15, 2024</div>
+          <div class="payment-note">February 2024 bill</div>
+        </div>
+        <div class="payment-amount negative">-₺95.00</div>
+      </div>
+      
+      <div class="payment-item">
+        <div class="payment-icon">🌐</div>
+        <div class="payment-details">
+          <div class="payment-title">Internet Bill</div>
+          <div class="payment-date">Mar 10, 2024</div>
+          <div class="payment-note">March 2024 bill</div>
+        </div>
+        <div class="payment-amount negative">-₺120.00</div>
+      </div>
+      
+      <div class="payment-item">
+        <div class="payment-icon">🚗</div>
+        <div class="payment-details">
+          <div class="payment-title">Car Insurance</div>
+          <div class="payment-date">Mar 5, 2024</div>
+          <div class="payment-note">Annual premium</div>
+        </div>
+        <div class="payment-amount negative">-₺1,500.00</div>
+      </div>
+    </div>
+    
+    <div class="view-all-payments">
+      <button class="view-all-btn" routerLink="/dashboard">
+        <span>Back to Home</span>
+        <span class="arrow">→</span>
       </button>
-    </td>
-  </tr>
-</table>
+    </div>
+  </section>
+</div>

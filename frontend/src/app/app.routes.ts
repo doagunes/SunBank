@@ -54,6 +54,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'credit-card',
+    loadComponent: () => import('./credit-card/credit-card').then(m => m.CreditCard)
+  },
+
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
