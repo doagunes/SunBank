@@ -296,7 +296,7 @@
   right: 40px;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  background: linear-gradient(135deg, white 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -314,7 +314,7 @@
 }
 
 .sunny-icon {
-  font-size: 36px;
+  font-size: 50px;
   animation: rotate 20s linear infinite;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
@@ -364,29 +364,29 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-end;
   z-index: 2000;
   opacity: 0;
   visibility: hidden;
   transition: all 0.4s ease;
+  pointer-events: none;
 }
 
 .chat-modal-overlay.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .chat-modal {
   background: transparent;
-  border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
-  max-width: 90vw;
-  max-height: 90vh;
-  width: 500px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: 400px;
   height: 600px;
   position: relative;
   transform: scale(0.8) translateY(40px);

@@ -148,7 +148,6 @@ app.MapPost("/api/login", async ([FromBody] LoginDto loginDto, [FromServices] Ap
 .WithName("Login")
 .WithTags("Auth");
 
-// hesap oluşturma ekledim
 app.MapPost("/api/signup", async (UserDto userDto, AppDbContext db) =>
 {
     if (string.IsNullOrWhiteSpace(userDto.Tc) || string.IsNullOrWhiteSpace(userDto.Email) || string.IsNullOrWhiteSpace(userDto.Password))

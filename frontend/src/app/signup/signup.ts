@@ -42,18 +42,6 @@ export class SignupComponent {
     this.passwordRules.lowercase = /[a-z]/.test(password);
     this.passwordRules.number = /\d/.test(password);
   }
-
-  onEmailInput() {
-    const email = this.email;
-    this.emailRules.notEmpty = email.trim().length > 0;
-    this.emailRules.hasAtSymbol = email.includes('@');
-    this.emailRules.hasDotAfterAt = email.includes('@') && email.split('@')[1]?.includes('.');
-  }
-
-  isValidPhoneNumber(phone: string): boolean {
-    return /^05\d{9}$/.test(phone); 
-  }
-  
   isPasswordValid(): boolean {
     return (
       this.passwordRules.length &&
@@ -62,18 +50,31 @@ export class SignupComponent {
       this.passwordRules.number
     );
   }
-
   getPasswordStrength(): number {
     if (this.password.length === 0) return 0;
-    
     let strength = 0;
     if (this.passwordRules.length) strength += 25;
     if (this.passwordRules.uppercase) strength += 25;
     if (this.passwordRules.lowercase) strength += 25;
     if (this.passwordRules.number) strength += 25;
-    
     return strength;
   }
+
+  onEmailInput() {
+    const email = this.email;
+    this.emailRules.notEmpty = email.trim().length > 0;
+    this.emailRules.hasAtSymbol = email.includes('@');
+    this.emailRules.hasDotAfterAt = email.includes('@') && email.split('@')[1]?.includes('.');
+  }
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  isValidPhoneNumber(phone: string): boolean {
+    return /^05\d{9}$/.test(phone); 
+  }
+  
 
   isFormValid(): boolean {
     return (
@@ -101,10 +102,7 @@ export class SignupComponent {
     return digit10 === digits[9] && digit11 === digits[10];
   }
 
-  isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+  
 
   signup() {
     if (!this.firstName.trim() || !this.lastName.trim()) {

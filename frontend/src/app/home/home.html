@@ -117,6 +117,8 @@
   </section>
 
   <!-- Bank Promotions Section -->
+   <!--
+
   <section class="promotions-section">
     <div class="section-header">
       <h2>🏦 SunBank Services</h2>
@@ -146,6 +148,7 @@
       </div>
     </div>
   </section>
+-->
 
   <!-- Sunny AI Assistant Button -->
   <div class="sunny-button" (click)="openChatbot()">
@@ -157,7 +160,7 @@
   <div class="chat-modal-overlay" [class.active]="isChatOpen" (click)="closeChatbot($event)">
     <div class="chat-modal" (click)="$event.stopPropagation()">
       <button class="chat-modal-close" (click)="closeChatbot()">×</button>
-      <app-chatbot></app-chatbot>
+      <app-chatbot (closed)="closeChatbot($event)"> </app-chatbot>
     </div>
   </div>
 </div>

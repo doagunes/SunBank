@@ -1,12 +1,13 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './chatbot.html',
   styleUrls: ['./chatbot.css'],
 })
@@ -17,7 +18,8 @@ export class ChatbotComponent implements AfterViewChecked {
   userInput = '';
   isLoading = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router
+  ) {}
 
   ngAfterViewChecked() {
     this.scrollToBottom();
@@ -36,6 +38,13 @@ export class ChatbotComponent implements AfterViewChecked {
       hour12: true 
     });
   }
+
+  closeChat() {
+    window.location.href = '/home';
+  }
+
+  @Output() closed = new EventEmitter<Event>();
+
 
   sendMessage() {
     if (!this.userInput.trim()) return;

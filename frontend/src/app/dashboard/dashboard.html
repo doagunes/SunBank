@@ -75,35 +75,6 @@
     </div>
   </section>
 
-  <!-- Quick Actions Section -->
-  <section class="quick-actions">
-    <div class="section-header">
-      <h2>Quick Actions</h2>
-      <p>Frequently used banking services</p>
-    </div>
-    
-    <div class="quick-actions-container">
-      <div class="quick-action">
-        <div class="action-icon">📱</div>
-        <span>Mobile Banking</span>
-      </div>
-      
-      <div class="quick-action">
-        <div class="action-icon">🔒</div>
-        <span>Security Settings</span>
-      </div>
-      
-      <div class="quick-action">
-        <div class="action-icon">📞</div>
-        <span>Contact Support</span>
-      </div>
-      
-      <div class="quick-action">
-        <div class="action-icon">📋</div>
-        <span>Account Statements</span>
-      </div>
-    </div>
-  </section>
 
   <!-- Logout Button -->
   <div class="logout-button-fixed" (click)="logout()">
@@ -121,7 +92,7 @@
   <div class="chat-modal-overlay" [class.active]="isChatOpen" (click)="closeChatbot($event)">
     <div class="chat-modal" (click)="$event.stopPropagation()">
       <button class="chat-modal-close" (click)="closeChatbot()">×</button>
-      <app-chatbot></app-chatbot>
+      <app-chatbot (closed)="closeChatbot($event)"></app-chatbot>
     </div>
   </div>
 </div>

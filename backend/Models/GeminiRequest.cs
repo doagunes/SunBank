@@ -7,7 +7,7 @@ namespace Backend.Models
 
     public class Message
     {
-        public string Role { get; set; } = ""; // "user" veya "bot"
+        public string Role { get; set; } = "";
         public string Text { get; set; } = "";
     }
 }

@@ -77,6 +77,27 @@
   animation: pulse 2s infinite;
 }
 
+.chat-close {
+  margin-left: auto;
+  background: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.chat-close:hover {
+  background: #ff6b6b;
+  color: white;
+  transform: rotate(90deg);
+}
+
+
 @keyframes pulse {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
@@ -259,11 +280,10 @@
 
 /* Chat Input */
 .chat-input-container {
-  padding: 10px 20px 30px 20px; /* Further reduced top padding, increased bottom padding */
+  padding: 20px;
+  margin-bottom: 10px;
   background: rgba(255, 255, 255, 0.9);
   border-top: 1px solid rgba(255, 193, 7, 0.2);
-  position: relative;
-  bottom: -20px; /* Increased offset to move input area higher */
 }
 
 .input-form {
@@ -273,10 +293,10 @@
 .input-wrapper {
   display: flex;
   gap: 12px;
-  align-items: center;
+  align-items: flex-start;   /* input yukarıya yaslanır */
   background: white;
   border-radius: 25px;
-  padding: 4px;
+  padding: 8px 4px;          /* üst padding’i biraz arttır */
   box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
   border: 1px solid rgba(255, 193, 7, 0.2);
 }
@@ -301,6 +321,7 @@
 }
 
 .send-button {
+   margin-top: 4px;
   width: 40px;
   height: 40px;
   border: none;

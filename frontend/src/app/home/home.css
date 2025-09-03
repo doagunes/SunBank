@@ -460,7 +460,7 @@
   right: 40px;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  background: linear-gradient(135deg, white 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -477,8 +477,13 @@
   box-shadow: 0 16px 40px rgba(255, 193, 7, 0.6);
 }
 
+.chat-modal-close {
+  display: none !important;
+}
+
+
 .sunny-icon {
-  font-size: 36px;
+  font-size: 60px;
   animation: rotate 20s linear infinite;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
@@ -837,7 +842,7 @@ html {
   flex-shrink: 0;
   width: 120px;
   height: 120px;
-  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  background: linear-gradient(135deg,);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -847,7 +852,7 @@ html {
 }
 
 .sunny-intro-icon {
-  font-size: 48px;
+  font-size: 70px;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
   animation: rotate 20s linear infinite;
 }
@@ -908,7 +913,7 @@ html {
 }
 
 .sunny-intro-button {
-  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  background: linear-gradient(135deg, #ffd54f 100%, #ffb300 100%);
   border: none;
   border-radius: 16px;
   color: white;
