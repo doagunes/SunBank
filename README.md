@@ -41,7 +41,7 @@ Real-time exchange rates powered by CurrencyFreaks API.
 ### News Updates
 Latest economy & finance news fetched via NewsAPI.
 
-Modern UI/UX
+### Modern UI/UX
 Responsive Angular frontend with a warm sunset yellow/orange theme, smooth animations, and a clean dashboard design.
 
 
