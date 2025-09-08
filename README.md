@@ -44,8 +44,8 @@ Postman (API testing)
 
 ### User Authentication
 Secure login and signup with validation for national ID, email, and password.
-![image](https://github.com/user-attachments/assets/80a4306c-1b3a-45bc-9ddb-4135a8253975)
-![image](https://github.com/user-attachments/assets/80a4306c-1b3a-45bc-9ddb-4135a8253975)
+![image]("https://github.com/user-attachments/assets/79a8925a-4e6f-4e85-9fee-7829b5da57bd")
+![image]("https://github.com/user-attachments/assets/7ac1a4bc-ee13-4142-9ec5-6eea3bfe560c")
 
 ### Forgot Password Flow
 Reset password functionality with email verification and secure token validation.
