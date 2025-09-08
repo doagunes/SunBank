@@ -87,9 +87,3 @@ Apply for personal loans, mortgages, and financing options with competitive rate
 View statements, manage credit cards, and track your spending.
 <img width="2882" height="1520" alt="image" src="https://github.com/user-attachments/assets/8b125ad8-3b36-4459-8b50-c6ee1b838fa7" />
 <img width="2880" height="1334" alt="image" src="https://github.com/user-attachments/assets/8c49b368-b223-45b7-b827-7c19222ebe6f" />
-
-### Modern UI/UX
-Responsive Angular frontend with a warm sunset yellow/orange theme, smooth animations, and a clean dashboard design.
-
-
- 
