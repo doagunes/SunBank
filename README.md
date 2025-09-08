@@ -1,5 +1,49 @@
 # SunBank
 
+SunBank is a modern internet banking application designed to combine security, convenience, and AI-powered financial assistance. It offers users a full digital banking experience with account management, money transfers, loan applications, AI chatbot support, and real-time financial insights. These insights include up-to-date financial news powered by NewsAPI and AI-generated explanations and suggestions through the integrated Gemini-powered chatbot, helping users stay informed and make better financial decisions.
+
+## Technologies Used
+
+### Frontend
+
+Angular (Standalone Components)
+
+Angular Material
+
+CSS (Sunset gradient theme, responsive UI)
+
+Bootstrap (for additional styling components)
+
+### Backend
+
+ASP.NET Core Minimal APIs (C#)
+
+DTO-based request/response handling
+
+Middleware for validation and error handling
+
+### Database
+
+SQLite (for development and data storage)
+
+### AI & APIs
+
+Google Gemini API (AI-powered chatbot assistant – Sunny)
+
+NewsAPI (real-time economy & finance news)
+
+### Email Integration
+
+System.Net.Mail.SmtpClient (for password reset & notification emails)
+
+### Other Tools & Services
+
+Git (Version Control)
+
+Render (Deployment)
+
+Postman (API testing)
+
 ## Features
 
 ### User Authentication
