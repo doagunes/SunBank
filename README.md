@@ -1,6 +1,7 @@
 # SunBank
 
-##Features
+## Features
+
 User Authentication
 Secure login and signup with validation for national ID, email, and password.
 
