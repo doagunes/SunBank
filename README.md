@@ -44,9 +44,14 @@ Postman (API testing)
 
 ### User Authentication
 Secure login and signup with validation for national ID, email, and password.
+![image](https://github.com/user-attachments/assets/80a4306c-1b3a-45bc-9ddb-4135a8253975)
+![image](https://github.com/user-attachments/assets/80a4306c-1b3a-45bc-9ddb-4135a8253975)
 
 ### Forgot Password Flow
 Reset password functionality with email verification and secure token validation.
+![image](https://github.com/user-attachments/assets/80a4306c-1b3a-45bc-9ddb-4135a8253975)
+<img width="1002" height="548" alt="image" src="https://github.com/user-attachments/assets/d7f80c38-ab5f-4b33-ad55-a2f784c4268b" />
+<img width="1260" height="1272" alt="image" src="https://github.com/user-attachments/assets/186f601c-17c2-43ae-be8c-aba2fded74f7" />
 
 ### Email Notifications
 Password reset links and critical notifications are sent via email using SMTP (System.Net.Mail.SmtpClient).
