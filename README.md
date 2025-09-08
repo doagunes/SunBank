@@ -20,8 +20,6 @@ ASP.NET Core Minimal APIs (C#)
 
 DTO-based request/response handling
 
-Middleware for validation and error handling
-
 ### Database
 
 SQLite (for development and data storage)
@@ -39,8 +37,6 @@ System.Net.Mail.SmtpClient (for password reset & notification emails)
 ### Other Tools & Services
 
 Git (Version Control)
-
-Render (Deployment)
 
 Postman (API testing)
 
