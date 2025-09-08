@@ -44,12 +44,12 @@ Postman (API testing)
 
 ### User Authentication
 Secure login and signup with validation for national ID, email, and password.
-![image]("https://github.com/user-attachments/assets/79a8925a-4e6f-4e85-9fee-7829b5da57bd")
-![image]("https://github.com/user-attachments/assets/7ac1a4bc-ee13-4142-9ec5-6eea3bfe560c")
+<img width="1082" height="1176" alt="image" src="https://github.com/user-attachments/assets/46108f20-1965-44af-b975-5af17d23c514" />
+<img width="1314" height="1660" alt="image" src="https://github.com/user-attachments/assets/78637b08-dc13-4afe-9f66-ae91cb1d42e6" />
 
 ### Forgot Password Flow
 Reset password functionality with email verification and secure token validation.
-![image](https://github.com/user-attachments/assets/80a4306c-1b3a-45bc-9ddb-4135a8253975)
+<img width="1226" height="1102" alt="image" src="https://github.com/user-attachments/assets/0e4fddc3-44ee-4715-a24e-99bca63d4385" />
 <img width="1002" height="548" alt="image" src="https://github.com/user-attachments/assets/d7f80c38-ab5f-4b33-ad55-a2f784c4268b" />
 <img width="1260" height="1272" alt="image" src="https://github.com/user-attachments/assets/186f601c-17c2-43ae-be8c-aba2fded74f7" />
 
