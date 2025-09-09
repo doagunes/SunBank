@@ -49,9 +49,9 @@ Secure login and signup with validation for national ID, email, and password.
 
 ### Forgot Password Flow
 Reset password functionality with email verification and secure token validation.
-<img width="500" height="600" alt="image" src="https://github.com/user-attachments/assets/0e4fddc3-44ee-4715-a24e-99bca63d4385" />
+<img width="500" height="700" alt="image" src="https://github.com/user-attachments/assets/0e4fddc3-44ee-4715-a24e-99bca63d4385" />
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/d7f80c38-ab5f-4b33-ad55-a2f784c4268b" />
-<img width="500" height="600" alt="image" src="https://github.com/user-attachments/assets/186f601c-17c2-43ae-be8c-aba2fded74f7" />
+<img width="500" height="700" alt="image" src="https://github.com/user-attachments/assets/186f601c-17c2-43ae-be8c-aba2fded74f7" />
 
 ### Email Notifications
 Password reset links and critical notifications are sent via email using SMTP (System.Net.Mail.SmtpClient).
@@ -64,7 +64,7 @@ Explore banking features without logging in, including AI demo chat, live news (
 ### AI Chatbot – Sunny 
 An AI-powered banking assistant integrated with Google Gemini API, providing instant responses to banking queries and personalized guidance.
 <img width="2856" height="1456" alt="image" src="https://github.com/user-attachments/assets/31bbece4-9deb-4565-9c8c-82b158d45071" />
-<img width="500" height="600" alt="image" src="https://github.com/user-attachments/assets/71ecf6f7-4740-4aa1-99b5-95e6b1884102" />
+<img width="500" height="700" alt="image" src="https://github.com/user-attachments/assets/71ecf6f7-4740-4aa1-99b5-95e6b1884102" />
 
 ### My Accounts
 After login, view account balances, transaction history, and manage multiple banking accounts.
