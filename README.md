@@ -64,7 +64,7 @@ Explore banking features without logging in, including AI demo chat, live news (
 ### AI Chatbot – Sunny 
 An AI-powered banking assistant integrated with Google Gemini API, providing instant responses to banking queries and personalized guidance.
 <img width="2856" height="1456" alt="image" src="https://github.com/user-attachments/assets/31bbece4-9deb-4565-9c8c-82b158d45071" />
-<img width="880" height="1216" alt="image" src="https://github.com/user-attachments/assets/71ecf6f7-4740-4aa1-99b5-95e6b1884102" />
+<img width="500" height="600" alt="image" src="https://github.com/user-attachments/assets/71ecf6f7-4740-4aa1-99b5-95e6b1884102" />
 
 ### My Accounts
 After login, view account balances, transaction history, and manage multiple banking accounts.
@@ -73,7 +73,7 @@ After login, view account balances, transaction history, and manage multiple ban
 ### Transfer Money
 Send money to other accounts, make international transfers, and manage recurring payments.
 <img width="2874" height="1636" alt="image" src="https://github.com/user-attachments/assets/ab0ac678-ebd5-4899-af1f-13def3dca674" />
-<img width="816" height="496" alt="image" src="https://github.com/user-attachments/assets/62794e27-21fd-418f-8214-35666b793d8e" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/62794e27-21fd-418f-8214-35666b793d8e" />
 
 ### Bill Payments
 Pay bills, set up automatic payments, and track your expenses.
